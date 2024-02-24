@@ -1,4 +1,4 @@
-const realtimeDb = require("../config/firebaseAdminConfig");
+const { realtimeDb } = require("../config/firebaseAdminConfig");
 
 class PatientModel {
   static create({

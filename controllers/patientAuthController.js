@@ -1,11 +1,11 @@
-const firebaseAdmin = require("firebase-admin");
+const { admin } = require("../config/firebaseAdminConfig");
 const { getAuth, signInWithEmailAndPassword } = require("firebase/auth");
 const { firebaseApp } = require("../config/firebaseClientConfig");
 
 class patientAuthController {
   static async registerUser(email, password) {
     try {
-      const userRecord = await firebaseAdmin.auth().createUser(email, password);
+      const userRecord = await admin.auth().createUser(email, password);
       return userRecord.uid;
     } catch (error) {
       throw new Error("Error creating user: " + error.message);

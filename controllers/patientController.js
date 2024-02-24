@@ -1,5 +1,5 @@
 //const Patient = require("../models/patientModel");
-const firebaseAdmin = require("firebase-admin");
+const { admin } = require("../config/firebaseAdminConfig");
 const PatientModel = require("../models/patientModel");
 const patientAuthController = require("./patientAuthController");
 
@@ -7,7 +7,7 @@ const multer = require("multer");
 
 // const multerStorage = multer.memoryStorage();
 // const upload = multer({ dest: "temp/", storage: multerStorage });
-const storage = firebaseAdmin.storage().bucket();
+const storage = admin.storage().bucket();
 
 class PatientController {
   static async registerPatient(req, res) {
@@ -41,12 +41,13 @@ class PatientController {
         return res.status(400).json({ error: "No file uploaded" });
       }
 
-      const userRecordId = await patientAuthController.registerUser({
+      const userRecordData = await patientAuthController.registerUser({
         email,
         password,
       });
 
-      const file = storage.file(patientImageFile.originalname); // Use the original name of the file
+      // Use the original name of the file to create a reference to the file in Firebase Storage
+      const file = storage.file(patientImageFile.originalname);
       const stream = file.createWriteStream({
         metadata: {
           contentType: patientImageFile.mimetype,
@@ -70,13 +71,13 @@ class PatientController {
           });
 
           // Register the user with the download URL as an attribute
-          const patientModelRecordId = PatientModel.create({
+          const newPatientModelRecord = PatientModel.create({
             firstName,
             lastName,
             mobileNumber,
             email,
             patientImageUrl: downloadURL[0],
-            userId: userRecordId,
+            userId: userRecordData,
           });
           // Save the user to the database (not shown here)
 
@@ -85,8 +86,8 @@ class PatientController {
             success: true,
             message: "Patient Registration Successful ...",
             data: {
-              patientModelRecordId,
-              userRecordId,
+              newPatientModelRecord,
+              userRecordData,
               imageUrl: downloadURL[0],
             },
           });
