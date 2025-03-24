@@ -1,6 +1,6 @@
 # Medical-Center-Reservation-System-Backend
 
 
-#Developed using node,js and firebase ..
+#Developed using node.js, express.js and firebase admin ..
 
--- User authentication api part is completed --
+-- User authentication and authorization api part is completed --
