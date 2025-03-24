@@ -1,4 +1,4 @@
-# Medical-Center-Reservation-System-Backend
+# Dispensary-Reservation-System-Backend
 
 
 #Developed using node.js, express.js and firebase admin ..
