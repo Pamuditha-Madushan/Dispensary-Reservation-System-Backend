@@ -7,6 +7,8 @@
 
 .env
 
+/Readme.txt
+
 # testing
 /coverage
 
@@ -23,7 +25,3 @@
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
-
-../middlwares/validate-patient.js
-
-simple-medical-booking-app-firebase-adminsdk-j5j36-0cd232bbb7.json

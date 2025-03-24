@@ -1,1 +1,1 @@
-# Medical-Center-Reservation-System-Backend
+# Dispensary-Reservation-System-Backend

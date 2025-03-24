@@ -1,19 +1,27 @@
-const express = require("express");
-const config = require("./config/config");
-const patientAuthRoutes = require("./routes/patientAuthRoutes");
-const dashboardRoutes = require("./routes/dashboardRoutes");
+import express from "express";
+import dotenv from "dotenv";
+dotenv.config();
+import config from "./src/config/config.js";
+import firebaseAdmin from "./src/config/firebaseAdminConfig.js";
+import patientRoutes from "./src/routes/patientRoutes.js";
+import { httpLogger } from "./src/middlewares/logger.middleware.js";
+import logger from "./src/util/logger.js";
+import errorHandler from "./src/middlewares/errorHandler.middleware.js";
+// import dashboardRoutes from "./src/routes/dashboardRoutes"
 /* Here is what you need to check firebase-client sdk
-const { ref, set } = require('firebase/database');
-const { firebaseApp, realtimeDb } = require("./config/firebaseClientConfig");
+import { ref, set } from 'firebase/database'
+import { firebaseApp, realtimeDb } from "./config/firebaseClientConfig"
 */
 
 const app = express();
 
+app.use(httpLogger);
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 app.get("/", (req, res) => {
-  res.send("Welcome to my server!");
+  req.log.info("Test Request");
+  res.send("Home");
 });
 
 /*
@@ -29,10 +37,14 @@ app.get("/test-firebase", async (req, res) => {
 
 */
 
-app.use("/patients", patientAuthRoutes);
+app.use("/api/v1/patients", patientRoutes);
 
-app.use("/dashboard", dashboardRoutes);
+// app.use("/api/dashboard", dashboardRoutes);
+
+app.use(errorHandler);
+
+firebaseAdmin.connectFirebase();
 
 app.listen(config.port, () => {
-  console.log(`Server is running live @ port ${config.port}`);
+  logger.info(`Server is running live @ port ${config.port}`);
 });
