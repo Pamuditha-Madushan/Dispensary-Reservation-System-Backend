@@ -2,7 +2,7 @@ import joi from "joi";
 
 const patientValidationSchema = joi.object({
   firstName: joi.string().min(3).required(),
-  lastName: joi.string().min(4).required(),
+  lastName: joi.string().min(3).required(),
   mobileNumber: joi
     .string()
     .length(10)
