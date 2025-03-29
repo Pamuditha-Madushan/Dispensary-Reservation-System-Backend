@@ -21,14 +21,6 @@ const verifyIdToken = async (req, res, next) => {
   }
 
   try {
-    //  if (idToken !== `Bearer ${validIdToken}`) {
-    //     return res.status(403).send({
-    //       statusCode: 403,
-    //       success: false,
-    //       error: "Invalid access token",
-    //     });
-    //   }
-
     const decodedToken = await patientService.verifyIdToken(idToken);
 
     req.user = decodedToken;

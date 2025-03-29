@@ -32,4 +32,5 @@ export default {
   realtimeDb: admin.database(),
   auth: admin.auth(),
   storage: admin.storage(),
+  fireStore: admin.firestore(),
 };
