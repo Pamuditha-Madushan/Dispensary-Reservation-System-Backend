@@ -1,6 +1,6 @@
 import express from "express";
 import multer from "multer";
-import patientController from "../controllers/patientController.js";
+import PatientController from "../controllers/patientController.js";
 import patientValidation from "../middlewares/validation.middlewares/patient.validation.middlewares/patient.validation.middleware.js";
 import verifyIdToken from "../middlewares/authorize-patient.js";
 import { checkLogoutState } from "../middlewares/check.logout.middleware.js";
@@ -16,32 +16,32 @@ router.post(
   "/signup",
   upload.single("image"),
   patientValidation,
-  patientController.registerPatient
+  PatientController.registerPatient
 );
 
 router.get(
   "/dashboard",
   verifyIdToken,
   checkLogoutState,
-  patientController.getPatientInfo
+  PatientController.getPatientInfo
 );
 
 router.post(
   "/update-logged-out-state",
   verifyIdToken,
-  patientController.updateLoggedInState
+  PatientController.updateLoggedInState
 );
 
 router.post(
   "/reset-password",
   patientEmailValidation,
-  patientController.resetPassword
+  PatientController.resetPassword
 );
 
 router.post(
   "/verify-email",
   patientEmailValidation,
-  patientController.verifyEmail
+  PatientController.verifyEmail
 );
 
 router.patch(
@@ -49,14 +49,14 @@ router.patch(
   patientUpdateValidation,
   verifyIdToken,
   checkLogoutState,
-  patientController.updatePatientData
+  PatientController.updatePatientData
 );
 
 router.post(
   "/logout",
   verifyIdToken,
   checkLogoutState,
-  patientController.handleLogout
+  PatientController.handleLogout
 );
 
 export default router;

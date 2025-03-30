@@ -1,5 +1,5 @@
 import responseFunction from "../util/response.function.js";
-import patientService from "../services/patientService.js";
+import PatientService from "../services/patientService.js";
 import logger from "../util/logger.js";
 import {
   sendPasswordResetEMail,
@@ -16,7 +16,7 @@ class PatientController {
       if (!image)
         return next({ statusCode: 400, errMessage: "No file uploaded!" });
 
-      const imageUrl = await patientService.uploadImage(image);
+      const imageUrl = await PatientService.uploadImage(image);
 
       const patientData = {
         firstName,
@@ -28,10 +28,10 @@ class PatientController {
         // patientImageUrl: downloadURL[0],
       };
 
-      const newPatientId = await patientService.registerPatient(patientData);
+      const newPatientId = await PatientService.registerPatient(patientData);
 
       const app = appName;
-      const verificationLink = await patientService.initiateEmailVerification(
+      const verificationLink = await PatientService.initiateEmailVerification(
         email
       );
       await sendVerificationEMail(
@@ -71,7 +71,7 @@ class PatientController {
           errMessage: `User Id is not received from the token!`,
         });
 
-      const patient = await patientService.findPatientDataByUserId(userId);
+      const patient = await PatientService.findPatientDataByUserId(userId);
 
       if (!patient || Object.keys(patient).length === 0)
         return next({
@@ -103,7 +103,7 @@ class PatientController {
           errMessage: `User Id is not retrievable!`,
         });
 
-      await patientService.revokeIdToken(userId);
+      await PatientService.revokeIdToken(userId);
 
       res.status(200).json(
         responseFunction(200, true, "Patient Logout Successful...", {
@@ -124,7 +124,7 @@ class PatientController {
       const userId = req.user.uid;
       const { loggedOut } = req.body;
 
-      await patientService.setLoggedInState(userId, loggedOut);
+      await PatientService.setLoggedInState(userId, loggedOut);
       res.status(200).json(
         responseFunction(
           200,
@@ -147,7 +147,7 @@ class PatientController {
   async resetPassword(req, res, next) {
     const { email } = req.body;
     try {
-      const displayName = await patientService.findPatientNameByEmail(email);
+      const displayName = await PatientService.findPatientNameByEmail(email);
 
       if (!displayName || displayName === null)
         return next({
@@ -156,7 +156,7 @@ class PatientController {
         });
 
       const app = appName;
-      const resetLink = await patientService.initiatePasswordReset(email);
+      const resetLink = await PatientService.initiatePasswordReset(email);
       await sendPasswordResetEMail(email, displayName, resetLink, app);
       res.status(200).json(
         responseFunction(
@@ -180,7 +180,7 @@ class PatientController {
   async verifyEmail(req, res, next) {
     const { email } = req.body;
     try {
-      const displayName = await patientService.findPatientNameByEmail(email);
+      const displayName = await PatientService.findPatientNameByEmail(email);
 
       if (!displayName || displayName === null)
         return next({
@@ -189,7 +189,7 @@ class PatientController {
         });
 
       const app = appName;
-      const verificationLink = await patientService.initiateEmailVerification(
+      const verificationLink = await PatientService.initiateEmailVerification(
         email
       );
       await sendVerificationEMail(email, displayName, verificationLink, app);
@@ -219,7 +219,7 @@ class PatientController {
       let imageUrl;
 
       if (req.file && req.file.image)
-        imageUrl = await patientService.uploadImage(req.file.image);
+        imageUrl = await PatientService.uploadImage(req.file.image);
 
       const patientData = {
         ...req.body,
@@ -228,9 +228,9 @@ class PatientController {
       if (imageUrl && imageUrl !== undefined)
         patientData.patientImageUrl = imageUrl;
 
-      const patientId = await patientService.findPatientIdByUserId(userId);
+      const patientId = await PatientService.findPatientIdByUserId(userId);
 
-      const result = await patientService.modifyPatient(patientId, patientData);
+      const result = await PatientService.modifyPatient(patientId, patientData);
       res.status(200).json(
         responseFunction(200, true, "Patient Data updated successfully...", {
           "user ID": patientId,

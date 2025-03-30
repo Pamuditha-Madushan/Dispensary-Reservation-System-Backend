@@ -33,4 +33,5 @@ export default {
   auth: admin.auth(),
   storage: admin.storage(),
   fireStore: admin.firestore(),
+  fire_store: admin.firestore,
 };
