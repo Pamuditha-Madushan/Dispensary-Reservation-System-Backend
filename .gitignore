@@ -7,8 +7,6 @@
 
 .env
 
-/src/models/doctor.model.js
-/src/models/service.model.js
 /src/routes/mockRoutes.js
 
 /Readme.txt

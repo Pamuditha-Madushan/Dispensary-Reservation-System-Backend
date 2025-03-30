@@ -4,7 +4,7 @@ import logger from "../util/logger.js";
 
 const authLogger = logger.child({ module: "authentication" });
 
-class patientService {
+class PatientService {
   async registerUser(email, password) {
     try {
       const userRecord = await firebaseAdmin.auth.createUser({
@@ -231,4 +231,4 @@ class patientService {
   }
 }
 
-export default new patientService();
+export default new PatientService();

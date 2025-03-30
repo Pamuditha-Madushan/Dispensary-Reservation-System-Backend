@@ -5,6 +5,8 @@ import cors from "cors";
 import config from "./src/config/config.js";
 import firebaseAdmin from "./src/config/firebaseAdminConfig.js";
 import patientRoutes from "./src/routes/patientRoutes.js";
+import doctorRoutes from "./src/routes/doctorRoutes.js";
+import serviceRoutes from "./src/routes/serviceRoutes.js";
 import { httpLogger } from "./src/middlewares/logger.middleware.js";
 import logger from "./src/util/logger.js";
 import errorHandler from "./src/middlewares/errorHandler.middleware.js";
@@ -28,6 +30,8 @@ app.get("/", (req, res) => {
 });
 
 app.use("/api/v1/patients", patientRoutes);
+app.use("/api/v1/doctors", doctorRoutes);
+app.use("/api/v1/services", serviceRoutes);
 
 app.use(errorHandler);
 
